@@ -1,7 +1,4 @@
 Exercicio 1
-
-
-![alt text](image.png)
 João Neiva, A108579
 
 Especifique uma expressão regular que faça match com qualquer string binária desde que esta não contenha a substring "011".
