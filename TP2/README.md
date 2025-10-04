@@ -15,4 +15,5 @@
 
 # João Neiva, A108579
 
-# Resumo: Pequeno conversor em Python de MarkDown para HTML para os elementos descritos na "Basic Syntax" da Cheat Sheet
+# Resumo: 
+Pequeno conversor em Python de MarkDown para HTML para os elementos descritos na "Basic Syntax" da Cheat Sheet
