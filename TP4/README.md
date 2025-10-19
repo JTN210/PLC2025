@@ -14,6 +14,10 @@
 
 ![Foto de João Carlos Teixeira Neiva](../photo.jpeg)
 
+
+João Neiva, A108579
+
+
 # Máquina de Vending (TPC5)
 
 Programa em **Python** que simula uma máquina de vending.
@@ -28,4 +32,3 @@ Programa em **Python** que simula uma máquina de vending.
 
 [RESOLUÇÃO](vending.py)
 
-João Neiva, A108579
