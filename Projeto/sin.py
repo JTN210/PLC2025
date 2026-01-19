@@ -13,18 +13,15 @@ precedence = (
     ('right', 'UMINUS'),  # Para menos unário
 )
 
-
 # ESTRUTURA PRINCIPAL DO PROGRAMA
 
 def p_gramatica(p):
     '''gramatica : programa '.' '''
     p[0] = ('gramatica', p[1])
 
-
 def p_programa(p):
     '''programa : cabecalho corpo'''
     p[0] = ('programa', p[1], p[2])
-
 
 def p_cabecalho(p):
     '''cabecalho : titulo declaracoes_variaveis declaracao_subprogramas declaracoes_variaveis_finais'''
@@ -33,7 +30,7 @@ def p_cabecalho(p):
     vars_finais = p[4]
     # Junta as duas secções de variáveis
     if vars_iniciais and vars_finais:
-        # Ambas existem - combinar declarações
+        # Ambas existem combinar declarações
         decls_ini = vars_iniciais[1] if vars_iniciais else []
         decls_fim = vars_finais[1] if vars_finais else []
         vars_combinadas = ('var_section', decls_ini + decls_fim)
@@ -45,7 +42,6 @@ def p_cabecalho(p):
         vars_combinadas = None
     p[0] = ('cabecalho', p[1], p[3], vars_combinadas)
 
-
 def p_declaracoes_variaveis_finais(p):
     '''declaracoes_variaveis_finais : VAR declaracoes
                                     | empty'''
@@ -54,11 +50,9 @@ def p_declaracoes_variaveis_finais(p):
     else:
         p[0] = None
 
-
 def p_titulo(p):
     '''titulo : PROGRAM ID ';' '''
     p[0] = ('titulo', p[2])
-
 
 # DECLARAÇÃO DE SUBPROGRAMAS (PROCEDURES E FUNCTIONS)
 
@@ -71,7 +65,6 @@ def p_declaracao_subprogramas(p):
     else:
         p[0] = p[1] + [p[2]]
 
-
 def p_procedure_declaration(p):
     '''procedure_declaration : PROCEDURE ID ';' bloco_subprograma ';'
                              | PROCEDURE ID '(' parametros ')' ';' bloco_subprograma ';' '''
@@ -79,7 +72,6 @@ def p_procedure_declaration(p):
         p[0] = ('procedure', p[2], [], p[4])
     else:
         p[0] = ('procedure', p[2], p[4], p[7])
-
 
 def p_function_declaration(p):
     '''function_declaration : FUNCTION ID ':' tipo ';' bloco_subprograma ';'
@@ -89,17 +81,14 @@ def p_function_declaration(p):
     else:
         p[0] = ('function', p[2], p[4], p[7], p[9])
 
-
 def p_bloco_subprograma(p):
     '''bloco_subprograma : declaracoes_variaveis corpo'''
     p[0] = ('bloco', p[1], p[2])
-
 
 def p_parametros(p):
     '''parametros : lista_parametros
                   | empty'''
     p[0] = p[1] if p[1] else []
-
 
 def p_lista_parametros(p):
     '''lista_parametros : lista_id ':' tipo
@@ -108,7 +97,6 @@ def p_lista_parametros(p):
         p[0] = [('param', p[1], p[3])]
     else:
         p[0] = [('param', p[1], p[3])] + p[5]
-
 
 # DECLARAÇÕES DE VARIÁVEIS
 
@@ -120,7 +108,6 @@ def p_declaracoes_variaveis(p):
     else:
         p[0] = None
 
-
 def p_declaracoes(p):
     '''declaracoes : declaracao
                    | declaracao declaracoes'''
@@ -129,11 +116,9 @@ def p_declaracoes(p):
     else:
         p[0] = [p[1]] + p[2]
 
-
 def p_declaracao(p):
     '''declaracao : lista_id ':' tipo ';' '''
     p[0] = ('var_decl', p[1], p[3])
-
 
 def p_lista_id(p):
     '''lista_id : ID
@@ -142,7 +127,6 @@ def p_lista_id(p):
         p[0] = [p[1]]
     else:
         p[0] = p[1] + [p[3]]
-
 
 # TIPOS
 
@@ -155,18 +139,15 @@ def p_tipo(p):
             | tipo_array'''
     p[0] = p[1] if isinstance(p[1], str) else p[1]
 
-
 def p_tipo_array(p):
     '''tipo_array : ARRAY '[' NUMBER RANGE NUMBER ']' OF tipo'''
     p[0] = ('array', p[3], p[5], p[8])
-
 
 # CORPO DO PROGRAMA
 
 def p_corpo(p):
     '''corpo : BEGIN lista_instrucoes END'''
     p[0] = ('begin_end', p[2])
-
 
 def p_lista_instrucoes(p):
     '''lista_instrucoes : instrucao
@@ -175,7 +156,6 @@ def p_lista_instrucoes(p):
         p[0] = [p[1]] if p[1] is not None else []
     else:
         p[0] = p[1] + ([p[3]] if p[3] is not None else [])
-
 
 # INSTRUÇÕES
 
@@ -191,16 +171,13 @@ def p_instrucao(p):
                  | empty'''
     p[0] = p[1]
 
-
 def p_bloco(p):
     '''bloco : BEGIN lista_instrucoes END'''
     p[0] = ('begin_end', p[2])
 
-
 def p_atribuicao(p):
     '''atribuicao : variavel ASSIGN expressao'''
     p[0] = ('assign', p[1], p[3])
-
 
 def p_chamada_procedimento(p):
     '''chamada_procedimento : ID '(' lista_expressao ')'
@@ -209,7 +186,6 @@ def p_chamada_procedimento(p):
         p[0] = ('call', p[1], [])
     else:
         p[0] = ('call', p[1], p[3])
-
 
 # COMANDOS DE ENTRADA/SAÍDA
 
@@ -224,7 +200,6 @@ def p_leitura(p):
     else:
         p[0] = ('readln', p[3])
 
-
 def p_escrita(p):
     '''escrita : WRITE '(' lista_expressao ')'
                | WRITELN '(' lista_expressao ')'
@@ -236,7 +211,6 @@ def p_escrita(p):
     else:
         p[0] = ('writeln', p[3])
 
-
 def p_lista_variaveis(p):
     '''lista_variaveis : variavel
                        | lista_variaveis ',' variavel'''
@@ -244,7 +218,6 @@ def p_lista_variaveis(p):
         p[0] = [p[1]]
     else:
         p[0] = p[1] + [p[3]]
-
 
 # ESTRUTURAS DE CONTROLE
 
@@ -256,17 +229,14 @@ def p_if_statement(p):
     else:
         p[0] = ('if', p[2], p[4], p[6])
 
-
 def p_while_statement(p):
     '''while_statement : WHILE expressao DO instrucao'''
     p[0] = ('while', p[2], p[4])
-
 
 def p_for_statement(p):
     '''for_statement : FOR ID ASSIGN expressao TO expressao DO instrucao
                      | FOR ID ASSIGN expressao DOWNTO expressao DO instrucao'''
     p[0] = ('for', p[2], p[4], p[6], p[5].lower(), p[8])
-
 
 # EXPRESSÕES
 
@@ -278,11 +248,9 @@ def p_lista_expressao(p):
     else:
         p[0] = p[1] + [p[3]]
 
-
 def p_expressao(p):
     '''expressao : expressao_logica'''
     p[0] = p[1]
-
 
 def p_expressao_logica(p):
     '''expressao_logica : expressao_logica OR expressao_relacional
@@ -293,7 +261,6 @@ def p_expressao_logica(p):
     else:
         p[0] = ('binop', p[2].lower(), p[1], p[3])
 
-
 def p_expressao_relacional(p):
     '''expressao_relacional : expressao_aritmetica operador_relacional expressao_aritmetica
                             | expressao_aritmetica'''
@@ -301,7 +268,6 @@ def p_expressao_relacional(p):
         p[0] = p[1]
     else:
         p[0] = ('binop', p[2], p[1], p[3])
-
 
 def p_operador_relacional(p):
     '''operador_relacional : EQUALS
@@ -312,7 +278,6 @@ def p_operador_relacional(p):
                            | GREATER_THAN_OR_EQUAL_TO'''
     p[0] = p[1]
 
-
 def p_expressao_aritmetica(p):
     '''expressao_aritmetica : expressao_aritmetica '+' termo
                             | expressao_aritmetica '-' termo
@@ -321,7 +286,6 @@ def p_expressao_aritmetica(p):
         p[0] = p[1]
     else:
         p[0] = ('binop', p[2], p[1], p[3])
-
 
 def p_termo(p):
     '''termo : termo '*' fator
@@ -333,7 +297,6 @@ def p_termo(p):
         p[0] = p[1]
     else:
         p[0] = ('binop', p[2].lower() if isinstance(p[2], str) and p[2].isupper() else p[2], p[1], p[3])
-
 
 def p_fator(p):
     '''fator : NUMBER
@@ -349,21 +312,17 @@ def p_fator(p):
     else:
         p[0] = p[2]
 
-
 def p_fator_not(p):
     '''fator : NOT fator'''
     p[0] = ('unop', 'not', p[2])
-
 
 def p_fator_menos_unario(p):
     '''fator : '-' fator %prec UMINUS'''
     p[0] = ('unop', '-', p[2])
 
-
 def p_fator_mais_unario(p):
     '''fator : '+' fator %prec UMINUS'''
     p[0] = ('unop', '+', p[2])
-
 
 # VARIÁVEIS E CHAMADAS DE FUNÇÃO
 
@@ -375,7 +334,6 @@ def p_variavel(p):
     else:
         p[0] = ('array_access', p[1], p[3])
 
-
 def p_chamada_funcao(p):
     '''chamada_funcao : ID '(' lista_expressao ')'
                       | LENGTH '(' expressao ')' '''
@@ -384,13 +342,11 @@ def p_chamada_funcao(p):
     else:
         p[0] = ('call', p[1], p[3])
 
-
 # Empty
 
 def p_empty(p):
     '''empty :'''
     pass
-
 
 # TRATAMENTO DE ERROS
 
@@ -400,7 +356,6 @@ def p_error(p):
         parser.errok()
     else:
         print("Erro de sintaxe: fim de arquivo inesperado")
-
 
 # PARSER
 parser = yacc.yacc()

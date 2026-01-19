@@ -351,7 +351,7 @@ class GeradorCodigo:
         expr_index = node[2]
         
         if nome_var not in self.info_arrays:
-            # É uma string - pode ser parâmetro, variável local, ou global
+            # É uma string pode ser parâmetro, variável local, ou global
             
             # Verificar se é um parâmetro local
             if hasattr(self, 'params_locais') and nome_var in self.params_locais:
@@ -417,7 +417,6 @@ class GeradorCodigo:
                 
                 # STOREN: stores value in address[index]
                 # Stack order: address, index, value (bottom to top)
-                
                 # Endereço base do array
                 self.emitir('PUSHGP')
                 self.emitir('PUSHI', addr_base)
@@ -441,7 +440,7 @@ class GeradorCodigo:
             
             # Verificar se é atribuição do valor de retorno da função (NomeFuncao := valor)
             if hasattr(self, 'funcao_atual') and self.funcao_atual and nome == self.funcao_atual:
-                # Guardar o valor de retorno - fica na stack para RETURN
+                # Guardar o valor de retorno fica na stack para RETURN
                 # Usar STOREL -2 para guardar no espaço de retorno (abaixo dos parâmetros)
                 num_params = len(self.params_locais) if hasattr(self, 'params_locais') else 0
                 self.emitir('STOREL', -(num_params + 1))

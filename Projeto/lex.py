@@ -42,7 +42,6 @@ reserved = {
     'length': 'LENGTH',
 }
 
-
 # LISTA DE TOKENS
 
 tokens = [
