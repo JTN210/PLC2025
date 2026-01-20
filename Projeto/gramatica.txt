@@ -203,8 +203,6 @@ Operadores relacionais todos definidos
 Literais todos na lista de literals
 
 
-
-
 ---------------------------------- DIFERENÇAS EM RELAÇÃO À GRAMÁTICA ORIGINAL --------------------------
 
 
@@ -224,7 +222,6 @@ MANTIDO DA GRAMÁTICA ORIGINAL:
 Hierarquia de expressões bem estruturada
 Separação clara de níveis (lógico → relacional → aritmético → termo → fator)
 Estrutura didática e organizada
-
 
 
 ---------------------------------- NOTAS IMPORTANTES --------------------------------------------------
